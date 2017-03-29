@@ -18,7 +18,7 @@ LABEL com.radiantblue.version="0.1"\
 # If EPEL is doing a full mirror list synchronization you might get errors
 # Uncomment this to use a fixed location for the epel
 ADD epel.repo /etc/yum.repos.d/epel.repo
-ADD ossim-TAG_PLACEHOLDER.repo /etc/yum.repos.d/ossim.repo
+ADD ossim.repo /etc/yum.repos.d/ossim.repo
 
 ##
 # If the mirror list for epel is good then use the RPM for epel installation
