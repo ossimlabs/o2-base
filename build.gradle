@@ -65,7 +65,7 @@ task pushDockerImage(type: DockerPushImage, overwrite:true){
 task saveDockerImage(dependsOn: pushDockerImage, overwrite:true) {
   doLast {
     exec {
-      commandLine 'docker', 'save', image, '-o', "build/libs/${project.name}.tgz"
+      commandLine 'docker', 'save', image, '-o', "${project.name}.tgz"
     }
   }
 }
@@ -74,7 +74,7 @@ task saveDockerImage(dependsOn: pushDockerImage, overwrite:true) {
 task dockerImageToS3(type: com.github.skhatri.s3aws.plugin.S3UploadTask, dependsOn: saveDockerImage, overwrite:true) {
   bucket = 'o2-delivery/dev/docker'
   key = "${imageTgz}"
-  file = project.file("build/libs/${imageTgz}").toString()
+  file = project.file("${imageTgz}").toString()
 }
 
 task doAll(dependsOn: dockerImageToS3, overwrite:true) {
