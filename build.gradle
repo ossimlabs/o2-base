@@ -33,8 +33,6 @@ apply plugin: org.jfrog.gradle.plugin.artifactory.ArtifactoryPlugin
 apply plugin: "java"
 apply plugin: "maven-publish"
 
-
-
 task createDockerfile(type: Dockerfile, overwrite:true){
   destFile = project.file('docker/Dockerfile')
   from "${project.ext.baseImage}"
@@ -44,7 +42,9 @@ task createDockerfile(type: Dockerfile, overwrite:true){
   addFile "ossim-${project.ext.yumTag}.repo", "/etc/yum.repos.d/ossim.repo"
 }
 
-task buildDockerImage(type: DockerBuildImage, dependsOn: createDockerfile, overwrite:true) {
+task buildDockerImage(type: DockerBuildImage, overwrite:true) {
+  dependsOn logIn 
+  dependsOn createDockerfile
     inputDir = createDockerfile.destFile.parentFile
     tag = "${image}"
 }
@@ -57,7 +57,6 @@ task tagDockerImage(type: DockerTagImage, dependsOn: buildDockerImage, overwrite
 task pushDockerImage(type: DockerPushImage, overwrite:true){
 
   dependsOn tagDockerImage
-  dependsOn logIn 
   
   imageName "${dockerNamespaceUrl}${image}"
 }
