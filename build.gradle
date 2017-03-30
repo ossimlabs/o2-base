@@ -37,7 +37,7 @@ apply plugin: "maven-publish"
 
 task createDockerfile(type: Dockerfile, overwrite:true){
   destFile = project.file('docker/Dockerfile')
-  from "${project.ext.baseImage:project.dockerAppTag}"
+  from "${project.ext.baseImage}:${project.dockerAppTag}"
   maintainer "DigitalGlobe-RadiantBlue"
   runCommand "yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip && yum clean all"
   addFile "epel.repo", "/etc/yum.repos.d/epel.repo"
