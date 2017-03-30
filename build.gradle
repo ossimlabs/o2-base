@@ -86,9 +86,5 @@ task doAll(dependsOn: dockerImageToS3, overwrite:true) {
       // from the local Docker registry
       commandLine 'docker', 'rmi', "-f", image
     }
-    exec {
-      // Removes the 'o2-base' image used during the build process
-      commandLine 'docker', 'rmi', "-f", project.ext.baseImage
-    }
   }
 }
