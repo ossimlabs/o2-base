@@ -43,10 +43,10 @@ task createDockerfile(type: Dockerfile, overwrite:true){
 }
 
 task buildDockerImage(type: DockerBuildImage, overwrite:true) {
-  dependsOn logIn 
   dependsOn createDockerfile
-    inputDir = createDockerfile.destFile.parentFile
-    tag = "${image}"
+  dependsOn logIn 
+  inputDir = createDockerfile.destFile.parentFile
+  tag = "${image}"
 }
 task tagDockerImage(type: DockerTagImage, dependsOn: buildDockerImage, overwrite:true) {
   imageId "${image}"
