@@ -90,13 +90,5 @@ task doAll(dependsOn: dockerImageToS3, overwrite:true) {
       // Removes the 'o2-base' image used during the build process
       commandLine 'docker', 'rmi', "-f", project.ext.baseImage
     }
-    exec {
-      // Removes the zipped image that was pushed to S3
-      commandLine 'rm', "build/libs/${imageTgz}"
-    }
-    exec {
-      // Removes the base image zip file
-      commandLine 'rm', "build/libs/${project.ext.baseImage}.tgz"
-    }
   }
 }
