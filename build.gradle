@@ -6,7 +6,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
 
 buildscript {
   ext {
-    baseImage = "centos:latest"
+    baseImage = "centos"
     grailsVersion = ""
     if(System.env.OMAR_COMMON_PROPERTIES)
     {
@@ -33,20 +33,20 @@ apply plugin: org.jfrog.gradle.plugin.artifactory.ArtifactoryPlugin
 apply plugin: "java"
 apply plugin: "maven-publish"
 
-
-
 task createDockerfile(type: Dockerfile, overwrite:true){
   destFile = project.file('docker/Dockerfile')
-  from project.ext.baseImage
+  from "${project.ext.baseImage}"
   maintainer "DigitalGlobe-RadiantBlue"
   runCommand "yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip && yum clean all"
   addFile "epel.repo", "/etc/yum.repos.d/epel.repo"
   addFile "ossim-${project.ext.yumTag}.repo", "/etc/yum.repos.d/ossim.repo"
 }
 
-task buildDockerImage(type: DockerBuildImage, dependsOn: createDockerfile, overwrite:true) {
-    inputDir = createDockerfile.destFile.parentFile
-    tag = "${image}"
+task buildDockerImage(type: DockerBuildImage, overwrite:true) {
+  dependsOn createDockerfile
+  dependsOn logIn 
+  inputDir = createDockerfile.destFile.parentFile
+  tag = "${image}"
 }
 task tagDockerImage(type: DockerTagImage, dependsOn: buildDockerImage, overwrite:true) {
   imageId "${image}"
@@ -57,7 +57,6 @@ task tagDockerImage(type: DockerTagImage, dependsOn: buildDockerImage, overwrite
 task pushDockerImage(type: DockerPushImage, overwrite:true){
 
   dependsOn tagDockerImage
-  dependsOn logIn 
   
   imageName "${dockerNamespaceUrl}${image}"
 }
