@@ -3,7 +3,8 @@ buildscript {
     baseImage = "centos"
     grailsVersion = ""
     dockerFile=project.file("docker/Dockerfile")
-     dockerStatementsOverride = {
+    hasJar=false
+    dockerStatementsOverride = {
        [
           "FROM ${project.ext.baseImage}:latest",
 
