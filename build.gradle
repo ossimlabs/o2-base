@@ -11,7 +11,7 @@ buildscript {
           "FROM ${project.ext.baseImage}:latest",
 
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
-          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip && yum clean all",
+          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget && yum clean all",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD ossim-${project.ext.yumTag}.repo /etc/yum.repos.d/ossim.repo"
        ]
