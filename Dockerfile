@@ -23,5 +23,5 @@ ADD ossim.repo /etc/yum.repos.d/ossim.repo
 ##
 # If the mirror list for epel is good then use the RPM for epel installation
 # and uncomment this run command out and comment the next run command
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged && yum clean all
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged git && yum clean all
 #RUN yum -y install java-1.8.0-openjdk haveged && yum clean all
