@@ -1,6 +1,7 @@
 buildscript {
   ext {
-    baseImage = "centos"
+//    baseImage = "centos"
+    baseImage = "rhel-minimal"
     grailsVersion = ""
     dockerFile=project.file("docker/Dockerfile")
     // must be a closure.  If set to =false then it thinks the proeprty does not exist
@@ -9,11 +10,12 @@ buildscript {
     dockerStatementsOverride = {
        [
           "FROM ${project.ext.baseImage}:latest",
-
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
-          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget && yum clean all",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
+          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
           "ADD ossim-${project.ext.yumTag}.repo /etc/yum.repos.d/ossim.repo"
+//          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
+          "RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
        ]
      }
     if(System.env.OMAR_COMMON_PROPERTIES)
