@@ -13,7 +13,7 @@ buildscript {
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
-          "ADD ossim-${project.ext.yumTag}.repo /etc/yum.repos.d/ossim.repo"
+          "ADD ossim-${project.ext.yumTag}.repo /etc/yum.repos.d/ossim.repo",
 //          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
           "RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
        ]
