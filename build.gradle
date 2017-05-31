@@ -9,7 +9,8 @@ buildscript {
 
     dockerStatementsOverride = {
        [
-          "FROM ${project.ext.baseImage}:latest",
+//          "FROM ${project.ext.baseImage}:latest",
+          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
