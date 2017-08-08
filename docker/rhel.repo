@@ -1,6 +1,6 @@
 [rhel]
 name=RedHat repo
-baseurl= http://172.31.3.203/rhel7
+baseurl= http://yum.ossim.io/rhel7
 enabled=1
 gpgcheck=0
 metadata_expire=5m

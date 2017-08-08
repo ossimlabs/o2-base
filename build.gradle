@@ -1,7 +1,7 @@
 buildscript {
   ext {
-//    baseImage = "centos"
-    baseImage = "rhel-minimal"
+    baseImage = "centos"
+//    baseImage = "rhel-minimal"
     grailsVersion = ""
     dockerFile=project.file("docker/Dockerfile")
     // must be a closure.  If set to =false then it thinks the proeprty does not exist
@@ -9,14 +9,15 @@ buildscript {
 
     dockerStatementsOverride = {
        [
-//          "FROM ${project.ext.baseImage}:latest",
-          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
+          "FROM ${project.ext.baseImage}:latest",
+//          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
-          "ADD epel.repo /etc/yum.repos.d/epel.repo",
-          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
-          "ADD ossim-${project.ext.yumTag}.repo /etc/yum.repos.d/ossim.repo",
-//          "RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
-          "RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged unzip wget curl && yum clean all",
+//          "ADD epel.repo /etc/yum.repos.d/epel.repo",
+//          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
+           "RUN yum -y install epel-release && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged && yum clean all",
+		   "RUN useradd -u 1001 -r -g 0 -d HOME -s /sbin/nologin -c 'Default Application User' omar && mkdir /home/omar",
+		   "USER 1001"
+		   
        ]
      }
     if(System.env.OMAR_COMMON_PROPERTIES)
@@ -26,10 +27,17 @@ buildscript {
   }
   repositories {
     mavenLocal()
-    maven { url "${ossimMavenProxy}" }
+	  flatDir {
+       dirs 'libs'
+   }
+   	jcenter()
+
+  //  maven { url "${ossimMavenProxy}" }
+  	  maven {       url "https://plugins.gradle.org/m2/" }
+
   }
   dependencies {
-        classpath 'com.bmuschko:gradle-docker-plugin:3.0.6'
+        classpath 'com.bmuschko:gradle-docker-plugin:3.0.7'
         classpath 'com.github.skhatri:gradle-s3-plugin:1.0.4'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
   }
