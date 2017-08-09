@@ -1,6 +1,6 @@
 .gradle
 /build/
-
+docker/Dockerfile
 # Ignore Gradle GUI config
 gradle-app.setting
 
