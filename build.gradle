@@ -9,7 +9,7 @@ buildscript {
 
     dockerStatementsOverride = {
        [
-          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}"",
+          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
 //          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
            "USER root",
