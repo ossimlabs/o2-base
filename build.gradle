@@ -1,7 +1,7 @@
 buildscript {
   ext {
-    baseImage = "centos"
-//    baseImage = "rhel-minimal"
+//    baseImage = "centos"
+    baseImage = "rhel-minimal"
     grailsVersion = ""
     dockerFile=project.file("docker/Dockerfile")
     // must be a closure.  If set to =false then it thinks the proeprty does not exist
@@ -12,13 +12,12 @@ buildscript {
           "FROM ${project.ext.baseImage}:latest",
 //          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
-//          "ADD epel.repo /etc/yum.repos.d/epel.repo",
-//          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
+           "USER root",
+          "ADD epel.repo /etc/yum.repos.d/epel.repo",
+          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
            "RUN yum -y install epel-release && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged && yum clean all",
            "ENV HOME /home/omar",
-		   "RUN useradd -u 1001 -r -g 0 -d \$HOME -s /sbin/nologin -c 'Default Application User' omar && mkdir /home/omar",
-           "USER root",
-           "RUN  chown 1001 /home/omar",
+		   "RUN useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar",
 		   "USER 1001"
 		   
        ]
