@@ -14,6 +14,7 @@ buildscript {
           "MAINTAINER RadiantBlue Technologies radiantblue.com",
            "USER root",
            "ENV HOME /home/omar",
+          "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
            """RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install epel-release &&\
