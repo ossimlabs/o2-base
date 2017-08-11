@@ -36,6 +36,13 @@ node(""){
     }
 
     try {
+      stage ("Init Docker Build")
+      {
+        dir("${workspaceDir}/${appName}"/docker")
+        {
+            sh "cp ossim-${OSSIM_GIT_BRANCH}.repo ossim.repo"
+        }
+      }
       stage ("Publish Docker App") 
       {      
         withCredentials([[$class: 'UsernamePasswordMultiBinding', 
