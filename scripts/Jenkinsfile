@@ -36,13 +36,6 @@ node(""){
     }
 
     try {
-      stage ("Init Docker Build")
-      {
-        dir("${workspaceDir}/${appName}/docker")
-        {
-            sh "cp ossim-${OSSIM_GIT_BRANCH}.repo ossim.repo"
-        }
-      }
       stage ("Publish Docker App") 
       {      
         withCredentials([[$class: 'UsernamePasswordMultiBinding', 
@@ -53,6 +46,7 @@ node(""){
             // Run all tasks on the app. This includes pushing to OpenShift and S3.
             sh """
             pushd ${workspaceDir}/${appName}/
+            cp docker/ossim-${OSSIM_GIT_BRANCH}.repo docker/ossim.repo
             ./gradlew ${GRADLE_TASK}
             popd
             """
