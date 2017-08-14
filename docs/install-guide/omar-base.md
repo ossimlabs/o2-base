@@ -19,7 +19,7 @@ RUN yum clean all
 RUN useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Application User' omar
 USER 1001
 ```
-Ref: [rhel-minimal](../../../omar-ossim-base/docs/install-guide/rhel-minimal/)
+Ref: [rhel-minimal](../../../rhel-minimal/docs/install-guide/rhel-minimal/)
 Ref: [https://github.com/ossimlabs/omar-base](https://github.com/ossimlabs/omar-base)
 
 If the docker file is created then:
