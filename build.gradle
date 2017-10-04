@@ -17,9 +17,9 @@ buildscript {
           "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
-           """RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install epel-release &&\
+           """RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install epel-release && \
                   yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-                                  java-1.8.0-openjdk haveged wget unzip && yum clean all && \
+                                  java-1.8.0-openjdk haveged wget unzip && yum clean all && chkconfig haveged on && \
                    useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
 		   "USER 1001"
 		   
