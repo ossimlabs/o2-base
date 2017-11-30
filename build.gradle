@@ -17,8 +17,7 @@ buildscript {
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
            """RUN subscription-manager config --rhsm.manage_repos=0 && \\
     yum -y install epel-release && \\
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \\
-    yum -y install java-1.8.0-openjdk && \\
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
     yum -y install haveged && \\
     yum -y install wget && \\
     yum -y install unzip && \\
