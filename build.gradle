@@ -10,19 +10,21 @@ buildscript {
     dockerStatementsOverride = {
        [
           "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-//          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-          "MAINTAINER RadiantBlue Technologies radiantblue.com",
            "USER root",
            "ENV HOME /home/omar",
           "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
           "ADD epel.repo /etc/yum.repos.d/epel.repo",
           "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
-           """RUN subscription-manager config --rhsm.manage_repos=0 && yum -y install epel-release && \
-                  yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-                                  java-1.8.0-openjdk haveged wget unzip && yum clean all && chkconfig haveged on && \
-                   useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
+           """RUN subscription-manager config --rhsm.manage_repos=0 && \\
+    yum -y install epel-release && \\
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
+    yum -y install haveged && \\
+    yum -y install wget && \\
+    yum -y install unzip && \\
+    yum clean all && \\
+    chkconfig haveged on && \\
+    useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
 		   "USER 1001"
-		   
        ]
      }
     if(System.env.OMAR_COMMON_PROPERTIES)
@@ -52,4 +54,3 @@ apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 apply plugin: "maven"
-
