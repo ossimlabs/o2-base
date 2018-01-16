@@ -10,8 +10,6 @@ buildscript {
     dockerStatementsOverride = {
        [
           "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-//          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-          "MAINTAINER RadiantBlue Technologies radiantblue.com",
            "USER root",
            "ENV HOME /home/omar",
           "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
@@ -23,7 +21,6 @@ buildscript {
                                   java-1.8.0-openjdk haveged wget unzip && yum clean all && chkconfig haveged on && \
                    useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
 		   "USER 1001"
-		   
        ]
      }
     if(System.env.OMAR_COMMON_PROPERTIES)
@@ -53,4 +50,3 @@ apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 apply plugin: "maven"
-
