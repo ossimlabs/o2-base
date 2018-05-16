@@ -7,26 +7,28 @@ buildscript {
     // must be a closure.  If set to =false then it thinks the proeprty does not exist
     hasJar={false}
 
-    dockerStatementsOverride = {
-       [
-          "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
-           "USER root",
-           "ENV HOME /home/omar",
-          "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
-          "ADD epel.repo /etc/yum.repos.d/epel.repo",
-          "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
-           """RUN subscription-manager config --rhsm.manage_repos=0 && \\
-    yum -y install epel-release && \\
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
-    yum -y install haveged && \\
-    yum -y install wget && \\
-    yum -y install unzip && \\
-    yum clean all && \\
-    chkconfig haveged on && \\
-    useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
-		   "USER 1001"
-       ]
-     }
+    dockerStatementsOverride = {[
+        "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
+        "USER root",
+        "ENV HOME /home/omar",
+        "ENV YUM0 ${System.env.YUM0}",
+        "ENV YUM1 ${System.env.YUM1}",
+        "ADD epel.repo /etc/yum.repos.d/epel.repo",
+        "ENV YUM2 ${System.env.YUM2}",
+        "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
+        "ENV YUM3 ${System.env.YUM3}",
+        "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
+        """RUN subscription-manager config --rhsm.manage_repos=0 && \\
+            yum -y install epel-release && \\
+            yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
+            yum -y install haveged && \\
+            yum -y install wget && \\
+            yum -y install unzip && \\
+            yum clean all && \\
+            chkconfig haveged on && \\
+            useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
+        "USER 1001"
+    ]}
     if(System.env.OMAR_COMMON_PROPERTIES)
     {
       apply from: System.env.OMAR_COMMON_PROPERTIES
