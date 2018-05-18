@@ -11,13 +11,14 @@ buildscript {
         "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
         "USER root",
         "ENV HOME /home/omar",
-        "ENV YUM0 ${System.env.YUM0}",
-        "ENV YUM1 ${System.env.YUM1}",
-        "ADD epel.repo /etc/yum.repos.d/epel.repo",
-        "ENV YUM2 ${System.env.YUM2}",
-        "ADD ossim.repo /etc/yum.repos.d/ossim.repo",
-        "ENV YUM3 ${System.env.YUM3}",
-        "ADD rhel.repo /etc/yum.repos.d/rhel.repo",
+        //"ENV YUM0 ${System.env.YUM0}",
+        //"ENV YUM1 ${System.env.YUM1}",
+        //"ADD epel.repo /etc/yum.repos.d/epel.repo",
+        //"ENV YUM2 ${System.env.YUM2}",
+        //"ADD ossim.repo /etc/yum.repos.d/ossim.repo",
+        //"ENV YUM3 ${System.env.YUM3}",
+        //"ADD rhel.repo /etc/yum.repos.d/rhel.repo",
+        "ADD ./yum.repods.d/* /etc/yum.repos.d/",
         """RUN subscription-manager config --rhsm.manage_repos=0 && \\
             yum -y install epel-release && \\
             yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
