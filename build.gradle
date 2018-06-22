@@ -36,20 +36,20 @@ buildscript {
     }
   }
   repositories {
+    maven { url "${ossimMavenProxy}" }
     mavenLocal()
-	  flatDir {
-       dirs 'libs'
-   }
-   	jcenter()
-
-  //  maven { url "${ossimMavenProxy}" }
-  	  maven {       url "https://plugins.gradle.org/m2/" }
-
+    if( !System.env.WWW_CONNECTED || Boolean.parseBoolean( System.env.WWW_CONNECTED ) ) {
+      maven { url "https://plugins.gradle.org/m2/" }
+      jcenter()
+    }
+	flatDir {
+      dirs 'libs'
+    }	
   }
   dependencies {
         classpath 'com.bmuschko:gradle-docker-plugin:3.0.7'
         classpath 'com.github.skhatri:gradle-s3-plugin:1.0.4'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.4"
   }
 }
 
