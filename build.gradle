@@ -11,17 +11,9 @@ buildscript {
         "FROM ${project.dockerNamespaceUrl}${project.ext.baseImage}:${project.dockerAppTag}",
         "USER root",
         "ENV HOME /home/omar",
-        //"ENV YUM0 ${System.env.YUM0}",
-        //"ENV YUM1 ${System.env.YUM1}",
-        //"ADD epel.repo /etc/yum.repos.d/epel.repo",
-        //"ENV YUM2 ${System.env.YUM2}",
-        //"ADD ossim.repo /etc/yum.repos.d/ossim.repo",
-        //"ENV YUM3 ${System.env.YUM3}",
-        //"ADD rhel.repo /etc/yum.repos.d/rhel.repo",
         "ADD ./yum.repos.d/* /etc/yum.repos.d/",
-        """RUN subscription-manager config --rhsm.manage_repos=0 && \\
-            yum -y install epel-release && \\
-            yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk && \\
+        """RUN yum -y install epel-release && \\
+            yum -y install java-1.8.0-openjdk && \\
             yum -y install haveged && \\
             yum -y install wget && \\
             yum -y install unzip && \\
@@ -36,16 +28,17 @@ buildscript {
     }
   }
   repositories {
-    maven { url "${ossimMavenProxy}" }
     mavenLocal()
+    maven { url "${ossimMavenProxy}" }
     if( !System.env.WWW_CONNECTED || Boolean.parseBoolean( System.env.WWW_CONNECTED ) ) {
       maven { url "https://plugins.gradle.org/m2/" }
       jcenter()
     }
 	flatDir {
       dirs 'libs'
-    }	
   }
+  }
+
   dependencies {
         classpath 'com.bmuschko:gradle-docker-plugin:3.0.7'
         classpath 'com.github.skhatri:gradle-s3-plugin:1.0.4'
