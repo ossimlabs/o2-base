@@ -17,6 +17,7 @@ buildscript {
             yum -y install haveged && \\
             yum -y install wget && \\
             yum -y install unzip && \\
+            yum -y install nss_wrapper gettext && \\
             yum clean all && \\
             chkconfig haveged on && \\
             useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
