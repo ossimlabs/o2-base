@@ -20,7 +20,9 @@ buildscript {
             yum -y install nss_wrapper gettext && \\
             yum clean all && \\
             chkconfig haveged on && \\
-            useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar""",
+            useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar && \\
+            chmod 777 /home/omar
+            """,
         "USER 1001"
     ]}
     if(System.env.OMAR_COMMON_PROPERTIES)
