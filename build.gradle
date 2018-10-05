@@ -22,11 +22,11 @@ buildscript {
             chkconfig haveged on && \\
             useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar && \\
             """,
-            "COPY run.sh \$HOME",
-            """RUN chown 1001:0 -R /home/omar && \\
+        "COPY run.sh \$HOME",
+        """RUN chown 1001:0 -R /home/omar && \\
             chmod 777 \$HOME && \\
-            chmod 777 \$HOME/*.sh"""
-
+            chmod 777 \$HOME/*.sh
+            """,
         "USER 1001"
     ]}
     if(System.env.OMAR_COMMON_PROPERTIES)
