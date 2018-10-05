@@ -21,7 +21,8 @@ buildscript {
             yum clean all && \\
             chkconfig haveged on && \\
             useradd -u 1001 -r -g 0 --create-home -d \$HOME -s /sbin/nologin -c 'Default Application User' omar && \\
-            chmod 777 /home/omar
+            chmod 777 /home/omar && \\
+            chmod 777 /home/omar/run.sh
             """,
         "USER 1001"
     ]}
