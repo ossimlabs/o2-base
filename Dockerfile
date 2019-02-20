@@ -4,27 +4,25 @@
 # A base image to install java and the ossim repo.
 # There isn't a command to run it is meant to serve as
 # a beginning for the rest of the o2 apps.
-FROM centos:latest
-MAINTAINER RadiantBlue Technologies radiantblue.com
-LABEL com.radiantblue.version="0.1"\
-      com.radiantblue.description="A base image to \
-      install java and the ossim repo. There isn't \
-      a command to run it is meant to serve as a \
-      beginning for the rest of the o2 apps."\
-      com.radiantblue.source=""\
-      com.radiantblue.classification="UNCLASSIFIED"
 
-##
-# If EPEL is doing a full mirror list synchronization you might get errors
-# Uncomment this to use a fixed location for the epel
-# ADD epel.repo /etc/yum.repos.d/epel.repo
-# ADD ossim.repo /etc/yum.repos.d/ossim.repo
-
-##
-# If the mirror list for epel is good then use the RPM for epel installation
-# and uncomment this run command out and comment the next run command
-RUN yum -y install epel-release && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm java-1.8.0-openjdk haveged && yum clean all
+FROM rhel-minimal
+USER root
 ENV HOME /home/omar
-RUN useradd -u 1001 -r -g 0 -d $HOME -s /sbin/nologin -c 'Default Application User' omar && mkdir /home/omar
-RUN chown 1001:0 /home/omar
+ADD ./yum.repos.d/* /etc/yum.repos.d/
+COPY goofys /usr/bin/goofys
+RUN yum -y install epel-release && \
+    yum -y install java-1.8.0-openjdk && \
+    yum -y install haveged && \
+    yum -y install wget && \
+    yum -y install unzip && \
+    yum -y install nss_wrapper gettext fuse fuse-libs libevent curl && \
+    yum clean all && \
+    chkconfig haveged on && \
+    mkdir -p /s3 && chown -R 1001:0 /s3 && chmod 777 /s3 && chmod ugo+x /usr/bin/goofys && \
+    echo "user_allow_other" > /etc/fuse.conf && \
+    useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Application User' omar
+COPY run.sh $HOME
+RUN chown 1001:0 -R $HOME && \
+    chmod 777 $HOME && \
+    chmod 777 $HOME/*.sh
 USER 1001
