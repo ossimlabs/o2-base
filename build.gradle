@@ -27,4 +27,4 @@ apply plugin: "maven-publish"
 
 io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
 dockerBuildDir="${rootProject.projectDir}"
-io.ossim.gradleDefaults.Docker.addDockerTasks(project, dockerRegistryUrl, dockerRegistryUsername, dockerRegistryPassword, name, dockerImageTag, dockerBuildDir, null, null)
+io.ossim.gradleDefaults.Docker.addDockerTasks(project, dockerRegistryUrl, dockerRegistryUsername, dockerRegistryPassword, name, dockerImageTag, dockerBuildDir, null, ["BASE_IMAGE": dockerBaseImage])
