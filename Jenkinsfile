@@ -30,7 +30,7 @@ node("${BUILD_NODE}"){
     {
         step ([$class: "CopyArtifact",
             projectName: "ossim-ci",
-            filter: "yum.repos.d"])
+            filter: "yum.repos.d/"])
 
         step ([$class: "CopyArtifact",
             projectName: "ossim-ci",
