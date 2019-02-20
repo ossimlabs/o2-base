@@ -37,6 +37,10 @@ node("${BUILD_NODE}"){
             filter: "goofys",
             flatten: true])
 
+        step ([$class: "CopyArtifact",
+            projectName: "ossim-ci",
+            filter: "run.sh"])
+
     }    
 
     stage ("Publish Docker App")
