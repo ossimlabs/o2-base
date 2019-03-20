@@ -19,30 +19,32 @@ node("${BUILD_NODE}"){
 
     stage("Load Variables")
     {
+    }
+
+    stage("Pull Artifacts")
+    {
         withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
             step ([$class: "CopyArtifact",
                 projectName: o2ArtifactProject,
                 filter: "common-variables.groovy",
                 flatten: true])
+
+            step ([$class: "CopyArtifact",
+                projectName: o2ArtifactProject,
+                filter: "yum.repos.d/"])
+
+            step ([$class: "CopyArtifact",
+                projectName: o2ArtifactProject,
+                filter: "goofys",
+                flatten: true])
+
+            step ([$class: "CopyArtifact",
+                projectName: o2ArtifactProject,
+                filter: "run.sh"])
+
         }
 
         load "common-variables.groovy"
-    }
-
-    stage("Pull Artifacts")
-    {
-        step ([$class: "CopyArtifact",
-            projectName: "ossim-ci",
-            filter: "yum.repos.d/"])
-
-        step ([$class: "CopyArtifact",
-            projectName: "ossim-ci",
-            filter: "goofys",
-            flatten: true])
-
-        step ([$class: "CopyArtifact",
-            projectName: "ossim-ci",
-            filter: "run.sh"])
 
     }    
 
