@@ -51,11 +51,32 @@ node("${BUILD_NODE}"){
                             usernameVariable: 'DOCKER_REGISTRY_USERNAME',
                             passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
             {
-                // Run all tasks on the app. This includes pushing to OpenShift and S3.
                 sh """
                 gradle pushDockerImage \
                     -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
                 """
+            }
+        }
+
+        stage ("Publish Latest Tagged Docker App")
+        {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                            credentialsId: 'dockerCredentials',
+                            usernameVariable: 'DOCKER_REGISTRY_USERNAME',
+                            passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
+            {
+                // Tag to latest/release and push that too, to ensure the new changes get used by dependant apps
+                if ("$BRANCH_NAME" == "dev") {
+                    sh """
+                        gradle tagDockerImage pushDockerImage \
+                         -PdockerImageTag=latest
+                    """
+                } else if ("$BRANCH_NAME" == "master") {
+                    sh """
+                        gradle tagDockerImage pushDockerImage \
+                         -PdockerImageTag=release
+                    """
+                }
             }
         }
 
