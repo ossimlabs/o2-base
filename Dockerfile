@@ -5,9 +5,9 @@
 # There isn't a command to run it is meant to serve as
 # a beginning for the rest of the o2 apps.
 
-#ARG BASE_IMAGE
-#FROM ${BASE_IMAGE}
-FROM adoptopenjdk/openjdk8:alpine-slim
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+#FROM adoptopenjdk/openjdk8:alpine-slim
 USER root
 ENV HOME /home/omar
 ADD ./yum.repos.d/* /etc/yum.repos.d/
