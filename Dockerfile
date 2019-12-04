@@ -14,7 +14,7 @@ ADD ./yum.repos.d/* /etc/yum.repos.d/
 COPY goofys /usr/bin/goofys
 RUN yum -y install epel-release && \
     yum clean all && \
-    yum -y install java-1.8.0-openjdk && \
+    yum -y install java-1.8.0-openjdk-headless && \
     yum -y install haveged && \
     yum -y install wget && \
     yum -y install unzip && \
