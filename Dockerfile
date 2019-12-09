@@ -12,17 +12,16 @@ USER root
 ENV HOME /home/omar
 ADD ./yum.repos.d/* /etc/yum.repos.d/
 COPY goofys /usr/bin/goofys
-RUN yum -y install epel-release && \
-    yum clean all && \
-    yum -y install java-1.8.0-openjdk-headless && \
-    yum -y install haveged && \
-    yum -y install wget && \
-    yum -y install unzip && \
-    yum -y install nss_wrapper gettext fuse fuse-libs libevent curl && \
-    yum clean all && \
-    yum -y update && \
-    yum clean all && \
+RUN yum -y install epel-release  \
+    java-1.8.0-openjdk-headless  \
+    haveged \
+    wget  \
+    unzip  \
+    nss_wrapper gettext fuse fuse-libs libevent curl && \
+    # yum -y update && \
+    yum clean all -y && \
     chkconfig haveged on && \
+    strip  /usr/bin/goofys && \
     mkdir -p /s3 && chown -R 1001:0 /s3 && chmod 777 /s3 && chmod ugo+x /usr/bin/goofys && \
     echo "user_allow_other" > /etc/fuse.conf && \
     useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Application User' omar
